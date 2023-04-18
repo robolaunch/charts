@@ -41,3 +41,6 @@ jobs:
                 git clone --branch ${{ github.event.inputs.version }} https://github.com/robolaunch/${{ github.event.inputs.chart }}.git ${{ env.TEMP_DIR }}${{ github.event.inputs.chart }};
                 cp -r ${{ env.TEMP_DIR }}${{ github.event.inputs.chart }}/${{ github.event.inputs.chartDir }}${{ github.event.inputs.chart }} ${{ env.CHARTS_DIR }};
                 rm -rf ./tmp;
+          - uses: stefanzweifel/git-auto-commit-action@v4
+            with:
+                commit_message: "bump(charts): bump ${{ github.event.inputs.chart }} chart to ${{ github.event.inputs.version }}"
