@@ -21,6 +21,16 @@ entries:
     urls:
     - https://github.com/robolaunch/charts/releases/download/fleet-operator-v0.1.6-alpha.4/fleet-operator-v0.1.6-alpha.4.tgz
     version: v0.1.6-alpha.4
+  - apiVersion: v2
+    appVersion: v0.1.6-alpha.4
+    created: "2023-04-18T15:12:23.85633461Z"
+    description: A Helm chart for Kubernetes
+    digest: c6cd0c87b66e9a5959208ef82d8c56bd30e929976cdac4d4d8dc1baf99ad9c8f
+    name: fleet-operator
+    type: application
+    urls:
+    - https://github.com/robolaunch/charts/releases/download/fleet-operator-v0.1.6-alpha.4/fleet-operator-v0.1.6-alpha.4.tgz
+    version: v0.1.6-alpha.4
   robot-operator:
   - apiVersion: v2
     appVersion: v0.2.5-alpha.5
@@ -42,4 +52,14 @@ entries:
     urls:
     - https://github.com/robolaunch/charts/releases/download/robot-operator-v0.2.5-alpha.5/robot-operator-v0.2.5-alpha.5.tgz
     version: v0.2.5-alpha.5
-generated: "2023-04-18T14:58:48.326290277Z"
+  - apiVersion: v2
+    appVersion: v0.2.5-alpha.5
+    created: "2023-04-18T15:12:24.105395847Z"
+    description: A Helm chart for Kubernetes
+    digest: 7b367e6d3053efee7ed2bd063623c29b035104f9cefe63c1d3f49dcd50d3b052
+    name: robot-operator
+    type: application
+    urls:
+    - https://github.com/robolaunch/charts/releases/download/robot-operator-v0.2.5-alpha.5/robot-operator-v0.2.5-alpha.5.tgz
+    version: v0.2.5-alpha.5
+generated: "2023-04-18T15:12:24.105419448Z"
