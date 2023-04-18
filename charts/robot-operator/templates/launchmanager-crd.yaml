@@ -1,0 +1,683 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: launchmanagers.robot.roboscale.io
+  annotations:
+    cert-manager.io/inject-ca-from: '{{ .Release.Namespace }}/{{ include "robot-operator.fullname"
+      . }}-serving-cert'
+    controller-gen.kubebuilder.io/version: v0.9.2
+  labels:
+  {{- include "robot-operator.labels" . | nindent 4 }}
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: '{{ include "robot-operator.fullname" . }}-webhook-service'
+          namespace: '{{ .Release.Namespace }}'
+          path: /convert
+      conversionReviewVersions:
+      - v1
+  group: robot.roboscale.io
+  names:
+    kind: LaunchManager
+    listKind: LaunchManagerList
+    plural: launchmanagers
+    singular: launchmanager
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: LaunchManager is the Schema for the launchmanagers API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Specification of the desired behavior of the LaunchManager.
+            properties:
+              display:
+                description: Launch processes connects an X11 socket if it's set to
+                  `true` and a target RobotVDI resource is set in labels with key `robolaunch.io/target-vdi`.
+                  Applications that requires GUI can be executed such as rViz.
+                type: boolean
+              launch:
+                additionalProperties:
+                  description: Launch description of a repository.
+                  properties:
+                    env:
+                      description: Additional environment variables to set when launching
+                        ROS nodes.
+                      items:
+                        description: EnvVar represents an environment variable present
+                          in a Container.
+                        properties:
+                          name:
+                            description: Name of the environment variable. Must be a
+                              C_IDENTIFIER.
+                            type: string
+                          value:
+                            description: 'Variable references $(VAR_NAME) are expanded
+                              using the previously defined environment variables in
+                              the container and any service environment variables. If
+                              a variable cannot be resolved, the reference in the input
+                              string will be unchanged. Double $$ are reduced to a single
+                              $, which allows for escaping the $(VAR_NAME) syntax: i.e.
+                              "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)".
+                              Escaped references will never be expanded, regardless
+                              of whether the variable exists or not. Defaults to "".'
+                            type: string
+                          valueFrom:
+                            description: Source for the environment variable's value.
+                              Cannot be used if value is not empty.
+                            properties:
+                              configMapKeyRef:
+                                description: Selects a key of a ConfigMap.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the ConfigMap or its
+                                      key must be defined
+                                    type: boolean
+                                required:
+                                - key
+                                type: object
+                                x-kubernetes-map-type: atomic
+                              fieldRef:
+                                description: 'Selects a field of the pod: supports metadata.name,
+                                  metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                  `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                  spec.serviceAccountName, status.hostIP, status.podIP,
+                                  status.podIPs.'
+                                properties:
+                                  apiVersion:
+                                    description: Version of the schema the FieldPath
+                                      is written in terms of, defaults to "v1".
+                                    type: string
+                                  fieldPath:
+                                    description: Path of the field to select in the
+                                      specified API version.
+                                    type: string
+                                required:
+                                - fieldPath
+                                type: object
+                                x-kubernetes-map-type: atomic
+                              resourceFieldRef:
+                                description: 'Selects a resource of the container: only
+                                  resources limits and requests (limits.cpu, limits.memory,
+                                  limits.ephemeral-storage, requests.cpu, requests.memory
+                                  and requests.ephemeral-storage) are currently supported.'
+                                properties:
+                                  containerName:
+                                    description: 'Container name: required for volumes,
+                                      optional for env vars'
+                                    type: string
+                                  divisor:
+                                    anyOf:
+                                    - type: integer
+                                    - type: string
+                                    description: Specifies the output format of the
+                                      exposed resources, defaults to "1"
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    x-kubernetes-int-or-string: true
+                                  resource:
+                                    description: 'Required: resource to select'
+                                    type: string
+                                required:
+                                - resource
+                                type: object
+                                x-kubernetes-map-type: atomic
+                              secretKeyRef:
+                                description: Selects a key of a secret in the pod's
+                                  namespace
+                                properties:
+                                  key:
+                                    description: The key of the secret to select from.  Must
+                                      be a valid secret key.
+                                    type: string
+                                  name:
+                                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the Secret or its key
+                                      must be defined
+                                    type: boolean
+                                required:
+                                - key
+                                type: object
+                                x-kubernetes-map-type: atomic
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      type: array
+                    launchFilePath:
+                      description: Path to launchfile in repository. (eg. `linorobot/linorobot_gazebo/launch.py`)
+                      type: string
+                    namespacing:
+                      description: ROS 2 namespacing. May not be suitable for all launchfiles.
+                        If used, all the node names and topic names should be defined
+                        relative, not absolute. (eg. `cmd_vel` instead of /cmd_vel``)
+                      type: boolean
+                    parameters:
+                      additionalProperties:
+                        type: string
+                      description: Launch parameters.
+                      type: object
+                    prelaunch:
+                      description: Command or script to run just before node's execution.
+                      properties:
+                        command:
+                          description: Bash command to run before ROS node execution.
+                          type: string
+                      required:
+                      - command
+                      type: object
+                    privileged:
+                      description: Launch container privilege.
+                      type: boolean
+                    repository:
+                      description: Name of the repository which includes the launchfile.
+                      type: string
+                    resources:
+                      description: Launch container resource limits.
+                      properties:
+                        cpu:
+                          description: CPU resource limit.
+                          pattern: ^([0-9])+(m)$
+                          type: string
+                        gpuCore:
+                          description: GPU core number that will be allocated.
+                          type: integer
+                        memory:
+                          description: Memory resource limit.
+                          pattern: ^([0-9])+(Mi|Gi)$
+                          type: string
+                      type: object
+                    selector:
+                      additionalProperties:
+                        type: string
+                      description: Cluster selector. If empty, launch pod will be created.
+                        If `robolaunch.io/cloud-instance` is specified only, launch
+                        will be running on the cloud instance. If `robolaunch.io/physical-instance`
+                        is specified only, launch will be running on the physical instance.
+                      type: object
+                    workspace:
+                      description: Name of the workspace. Should be selected among the
+                        existing workspaces in WorkspaceManager's manifests.
+                      type: string
+                  required:
+                  - launchFilePath
+                  - repository
+                  - workspace
+                  type: object
+                description: Launch descriptions. Every object defined here generates
+                  a `ros2 launch` command in the specified workspace.
+                type: object
+              run:
+                additionalProperties:
+                  description: Run description.
+                  properties:
+                    env:
+                      description: Additional environment variables to set when launching
+                        ROS nodes.
+                      items:
+                        description: EnvVar represents an environment variable present
+                          in a Container.
+                        properties:
+                          name:
+                            description: Name of the environment variable. Must be a
+                              C_IDENTIFIER.
+                            type: string
+                          value:
+                            description: 'Variable references $(VAR_NAME) are expanded
+                              using the previously defined environment variables in
+                              the container and any service environment variables. If
+                              a variable cannot be resolved, the reference in the input
+                              string will be unchanged. Double $$ are reduced to a single
+                              $, which allows for escaping the $(VAR_NAME) syntax: i.e.
+                              "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)".
+                              Escaped references will never be expanded, regardless
+                              of whether the variable exists or not. Defaults to "".'
+                            type: string
+                          valueFrom:
+                            description: Source for the environment variable's value.
+                              Cannot be used if value is not empty.
+                            properties:
+                              configMapKeyRef:
+                                description: Selects a key of a ConfigMap.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the ConfigMap or its
+                                      key must be defined
+                                    type: boolean
+                                required:
+                                - key
+                                type: object
+                                x-kubernetes-map-type: atomic
+                              fieldRef:
+                                description: 'Selects a field of the pod: supports metadata.name,
+                                  metadata.namespace, `metadata.labels[''<KEY>'']`,
+                                  `metadata.annotations[''<KEY>'']`, spec.nodeName,
+                                  spec.serviceAccountName, status.hostIP, status.podIP,
+                                  status.podIPs.'
+                                properties:
+                                  apiVersion:
+                                    description: Version of the schema the FieldPath
+                                      is written in terms of, defaults to "v1".
+                                    type: string
+                                  fieldPath:
+                                    description: Path of the field to select in the
+                                      specified API version.
+                                    type: string
+                                required:
+                                - fieldPath
+                                type: object
+                                x-kubernetes-map-type: atomic
+                              resourceFieldRef:
+                                description: 'Selects a resource of the container: only
+                                  resources limits and requests (limits.cpu, limits.memory,
+                                  limits.ephemeral-storage, requests.cpu, requests.memory
+                                  and requests.ephemeral-storage) are currently supported.'
+                                properties:
+                                  containerName:
+                                    description: 'Container name: required for volumes,
+                                      optional for env vars'
+                                    type: string
+                                  divisor:
+                                    anyOf:
+                                    - type: integer
+                                    - type: string
+                                    description: Specifies the output format of the
+                                      exposed resources, defaults to "1"
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    x-kubernetes-int-or-string: true
+                                  resource:
+                                    description: 'Required: resource to select'
+                                    type: string
+                                required:
+                                - resource
+                                type: object
+                                x-kubernetes-map-type: atomic
+                              secretKeyRef:
+                                description: Selects a key of a secret in the pod's
+                                  namespace
+                                properties:
+                                  key:
+                                    description: The key of the secret to select from.  Must
+                                      be a valid secret key.
+                                    type: string
+                                  name:
+                                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Add other useful fields. apiVersion, kind,
+                                      uid?'
+                                    type: string
+                                  optional:
+                                    description: Specify whether the Secret or its key
+                                      must be defined
+                                    type: boolean
+                                required:
+                                - key
+                                type: object
+                                x-kubernetes-map-type: atomic
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      type: array
+                    executable:
+                      description: Executable name in `ros2 run <package> <executable>`.
+                      type: string
+                    namespacing:
+                      description: ROS 2 namespacing. May not be suitable for all executables.
+                        If used, all the node names and topic names should be defined
+                        relative, not absolute. (eg. `cmd_vel` instead of /cmd_vel``)
+                      type: boolean
+                    package:
+                      description: Package name in `ros2 run <package> <executable>`.
+                      type: string
+                    parameters:
+                      additionalProperties:
+                        type: string
+                      description: Run parameters.
+                      type: object
+                    prelaunch:
+                      description: Command or script to run just before node's execution.
+                      properties:
+                        command:
+                          description: Bash command to run before ROS node execution.
+                          type: string
+                      required:
+                      - command
+                      type: object
+                    privileged:
+                      description: Launch container privilege.
+                      type: boolean
+                    resources:
+                      description: Launch container resource limits.
+                      properties:
+                        cpu:
+                          description: CPU resource limit.
+                          pattern: ^([0-9])+(m)$
+                          type: string
+                        gpuCore:
+                          description: GPU core number that will be allocated.
+                          type: integer
+                        memory:
+                          description: Memory resource limit.
+                          pattern: ^([0-9])+(Mi|Gi)$
+                          type: string
+                      type: object
+                    selector:
+                      additionalProperties:
+                        type: string
+                      description: Cluster selector. If empty, run pod will be created.
+                        If `robolaunch.io/cloud-instance` is specified only, run process
+                        will be running on the cloud instance. If `robolaunch.io/physical-instance`
+                        is specified only, run process will be running on the physical
+                        instance.
+                      type: object
+                    workspace:
+                      description: Name of the workspace. Should be selected among the
+                        existing workspaces in WorkspaceManager's manifests.
+                      type: string
+                  required:
+                  - executable
+                  - package
+                  - workspace
+                  type: object
+                description: Every object defined here generates a `ros2 run` command
+                  in the specified workspace.
+                type: object
+            type: object
+          status:
+            description: Most recently observed status of the LaunchManager.
+            properties:
+              active:
+                description: Indicates if the LaunchManager is attached to a Robot and
+                  actively running.
+                type: boolean
+              launchPodStatus:
+                description: Collective statuses of launch pod and launch objects.
+                properties:
+                  launchStatus:
+                    additionalProperties:
+                      properties:
+                        active:
+                          description: Inditaces if the launch process are actively
+                            running on cluster. It may not be selected by launch cluster
+                            selectors.
+                          type: boolean
+                        containerStatus:
+                          description: Statuses of the containers of pods owned by LaunchManager.
+                          properties:
+                            containerID:
+                              description: Container's ID in the format '<type>://<container_id>'.
+                              type: string
+                            image:
+                              description: 'The image the container is running. More
+                                info: https://kubernetes.io/docs/concepts/containers/images.'
+                              type: string
+                            imageID:
+                              description: ImageID of the container's image.
+                              type: string
+                            lastState:
+                              description: Details about the container's last termination
+                                condition.
+                              properties:
+                                running:
+                                  description: Details about a running container
+                                  properties:
+                                    startedAt:
+                                      description: Time at which the container was last
+                                        (re-)started
+                                      format: date-time
+                                      type: string
+                                  type: object
+                                terminated:
+                                  description: Details about a terminated container
+                                  properties:
+                                    containerID:
+                                      description: Container's ID in the format '<type>://<container_id>'
+                                      type: string
+                                    exitCode:
+                                      description: Exit status from the last termination
+                                        of the container
+                                      format: int32
+                                      type: integer
+                                    finishedAt:
+                                      description: Time at which the container last
+                                        terminated
+                                      format: date-time
+                                      type: string
+                                    message:
+                                      description: Message regarding the last termination
+                                        of the container
+                                      type: string
+                                    reason:
+                                      description: (brief) reason from the last termination
+                                        of the container
+                                      type: string
+                                    signal:
+                                      description: Signal from the last termination
+                                        of the container
+                                      format: int32
+                                      type: integer
+                                    startedAt:
+                                      description: Time at which previous execution
+                                        of the container started
+                                      format: date-time
+                                      type: string
+                                  required:
+                                  - exitCode
+                                  type: object
+                                waiting:
+                                  description: Details about a waiting container
+                                  properties:
+                                    message:
+                                      description: Message regarding why the container
+                                        is not yet running.
+                                      type: string
+                                    reason:
+                                      description: (brief) reason the container is not
+                                        yet running.
+                                      type: string
+                                  type: object
+                              type: object
+                            name:
+                              description: This must be a DNS_LABEL. Each container
+                                in a pod must have a unique name. Cannot be updated.
+                              type: string
+                            ready:
+                              description: Specifies whether the container has passed
+                                its readiness probe.
+                              type: boolean
+                            restartCount:
+                              description: The number of times the container has been
+                                restarted.
+                              format: int32
+                              type: integer
+                            started:
+                              description: Specifies whether the container has passed
+                                its startup probe. Initialized as false, becomes true
+                                after startupProbe is considered successful. Resets
+                                to false when the container is restarted, or if kubelet
+                                loses state temporarily. Is always true when no startupProbe
+                                is defined.
+                              type: boolean
+                            state:
+                              description: Details about the container's current condition.
+                              properties:
+                                running:
+                                  description: Details about a running container
+                                  properties:
+                                    startedAt:
+                                      description: Time at which the container was last
+                                        (re-)started
+                                      format: date-time
+                                      type: string
+                                  type: object
+                                terminated:
+                                  description: Details about a terminated container
+                                  properties:
+                                    containerID:
+                                      description: Container's ID in the format '<type>://<container_id>'
+                                      type: string
+                                    exitCode:
+                                      description: Exit status from the last termination
+                                        of the container
+                                      format: int32
+                                      type: integer
+                                    finishedAt:
+                                      description: Time at which the container last
+                                        terminated
+                                      format: date-time
+                                      type: string
+                                    message:
+                                      description: Message regarding the last termination
+                                        of the container
+                                      type: string
+                                    reason:
+                                      description: (brief) reason from the last termination
+                                        of the container
+                                      type: string
+                                    signal:
+                                      description: Signal from the last termination
+                                        of the container
+                                      format: int32
+                                      type: integer
+                                    startedAt:
+                                      description: Time at which previous execution
+                                        of the container started
+                                      format: date-time
+                                      type: string
+                                  required:
+                                  - exitCode
+                                  type: object
+                                waiting:
+                                  description: Details about a waiting container
+                                  properties:
+                                    message:
+                                      description: Message regarding why the container
+                                        is not yet running.
+                                      type: string
+                                    reason:
+                                      description: (brief) reason the container is not
+                                        yet running.
+                                      type: string
+                                  type: object
+                              type: object
+                          required:
+                          - image
+                          - imageID
+                          - name
+                          - ready
+                          - restartCount
+                          type: object
+                      type: object
+                    description: Status of launch objects. Every launch object generates
+                      a `ros2 launch` command that will run as an entrypoint in a container.
+                    type: object
+                  status:
+                    description: Launch pod status. Every LaunchManager creates one
+                      pod if active.
+                    properties:
+                      ip:
+                        description: IP of the pod.
+                        type: string
+                      resource:
+                        description: Generic status for any owned resource.
+                        properties:
+                          created:
+                            description: Shows if the owned resource is created.
+                            type: boolean
+                          phase:
+                            description: Phase of the owned resource.
+                            type: string
+                          reference:
+                            description: Reference to the owned resource.
+                            properties:
+                              apiVersion:
+                                description: API version of the referent.
+                                type: string
+                              fieldPath:
+                                description: 'If referring to a piece of an object instead
+                                  of an entire object, this string should contain a
+                                  valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
+                                  For example, if the object reference is to a container
+                                  within a pod, this would take on a value like: "spec.containers{name}"
+                                  (where "name" refers to the name of the container
+                                  that triggered the event) or if no container name
+                                  is specified "spec.containers[2]" (container with
+                                  index 2 in this pod). This syntax is chosen only to
+                                  have some well-defined way of referencing a part of
+                                  an object. TODO: this design is not final and this
+                                  field is subject to change in the future.'
+                                type: string
+                              kind:
+                                description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                                type: string
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                                type: string
+                              namespace:
+                                description: 'Namespace of the referent. More info:
+                                  https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                                type: string
+                              resourceVersion:
+                                description: 'Specific resourceVersion to which this
+                                  reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                                type: string
+                              uid:
+                                description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                                type: string
+                            type: object
+                            x-kubernetes-map-type: atomic
+                        required:
+                        - created
+                        type: object
+                    type: object
+                type: object
+              phase:
+                description: Phase of LaunchManager.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
