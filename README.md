@@ -2,14 +2,11 @@
 
 <div align="center">
   <p align="center">
-    <a href="https://github.com/robolaunch/template/releases">
-      <img src="https://img.shields.io/badge/release-v2.0.7-green" alt="release">
+    <a href="https://github.com/robolaunch/charts/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/robolaunch/charts" alt="license">
     </a>
-    <a href="https://github.com/robolaunch/template/blob/main/LICENSE">
-      <img src="https://img.shields.io/github/license/robolaunch/template" alt="license">
-    </a>
-    <a href="https://github.com/robolaunch/template/issues">
-      <img src="https://img.shields.io/github/issues/robolaunch/template" alt="issues">
+    <a href="https://github.com/robolaunch/charts/issues">
+      <img src="https://img.shields.io/github/issues/robolaunch/charts" alt="issues">
     </a>
   </p>
 </div>
