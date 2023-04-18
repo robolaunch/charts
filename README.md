@@ -17,7 +17,7 @@ robolaunch Charts includes Helm charts for Kubernetes. Primarily aimed to provid
 
 ## Table of Contents
 
-- [Usage](#overview)
+- [Usage](#usage)
 - [Contributing](#contributing)
 
 ## Usage
