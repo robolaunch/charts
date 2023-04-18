@@ -1,12 +1,7 @@
-# <img src="https://raw.githubusercontent.com/robolaunch/trademark/main/logos/svg/rocket.svg" width="40" height="40" align="top"> robolaunch Project Template
-
-[EDIT THIS: You can put badges to the README using [shields.io](https://shields.io/). Explain the repository's purpose shortly.]
+# <img src="https://raw.githubusercontent.com/robolaunch/trademark/main/logos/svg/rocket.svg" width="40" height="40" align="top"> robolaunch Charts
 
 <div align="center">
   <p align="center">
-    <a href="https://github.com/robolaunch/template/releases">
-      <img src="https://img.shields.io/badge/python-3.7-blue" alt="release">
-    </a>
     <a href="https://github.com/robolaunch/template/releases">
       <img src="https://img.shields.io/badge/release-v2.0.7-green" alt="release">
     </a>
@@ -16,54 +11,44 @@
     <a href="https://github.com/robolaunch/template/issues">
       <img src="https://img.shields.io/github/issues/robolaunch/template" alt="issues">
     </a>
-    <a href="https://github.com/robolaunch/template/actions">
-      <img src="https://img.shields.io/badge/build-passing-dgreen" alt="build">
-    </a>
   </p>
 </div>
 
-robolaunch Template helps organization members to have a generic project template before opening a repository. [Use this repository as a template](https://github.com/robolaunch/template/generate) for the new [robolaunch Organization](https://github.com/robolaunch) repository and specialize it according to project's needs.
+robolaunch Charts includes Helm charts for Kubernetes. Primarily aimed to provide charts for
+- robolaunch Kubernetes Operators
+- Marketplace Robots
 
 ## Table of Contents
 
-[EDIT THIS: Add your headers to table of contents.]
-
-- [Overview](#overview)
-- [Quick Start](#quick-start)
-- [Aims & Roadmap](#aims--roadmap)
+- [Usage](#overview)
 - [Contributing](#contributing)
 
+## Usage
 
-## Overview
+[Helm](https://helm.sh) must be installed to use the charts.  Please refer to
+Helm's [documentation](https://helm.sh/docs) to get started.
 
-[EDIT THIS: Give more insight about the project. Provide a feature list.]
+Once Helm has been set up correctly, add the repo as follows:
 
-The aim of this project is to maintain a generic template for robolaunch projects. Members of robolaunch organization can fork this repository and start developing their projects following conventions such as:
+```
+helm repo add robolaunch https://robolaunch.github.io/charts
+```
 
-- Following a code of conduct
-- Having a contributing guide
-- Having a style guide
-- Applying Apache 2.0 license
-- Having a README template
-- Having issue & pull request templates
-- Using worklows for testing & build
+If you had already added this repo earlier, run `helm repo update` to retrieve
+the latest versions of the packages.  You can then run `helm search repo
+<alias>` to see the charts.
 
-## Quick Start
+For example, to install the `robot-operator` chart:
 
-[EDIT THIS: Explain how starters can try the project's functionality.]
+```
+helm install robot-operator robolaunch/robot-operator
+```
 
-After [using this project as template](https://github.com/robolaunch/template/generate), you can:
-- Update generic fields at README, specialize it to the project
-- Create first release to stage new features
-- Add custom workflows for CI/CD
-- Specialize issue & PR templates if needed
+To uninstall the chart:
 
-## Aims & Roadmap
-
-[EDIT THIS: Add roadmap items for the project.]
-
-- Extending the open source conventions
-- Enforcing conventional commit messages
+```
+helm delete robot-operator
+```
 
 ## Contributing
 
