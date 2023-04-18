@@ -16,7 +16,8 @@ on:
             chartDir:
                 type: string
                 required: true
-                description: 'Chart directory. (eg. hack/deploy/chart/)'
+                default: "hack/deploy/chart/"
+                description: 'Chart directory.'
 
 env:
     CHARTS_DIR: ./charts/
