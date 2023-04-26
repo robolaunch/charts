@@ -37,13 +37,16 @@ the latest versions of the packages.  You can then run `helm search repo <alias>
 For example, to install the `robot-operator` chart:
 
 ```
-helm install robot-operator robolaunch/robot-operator
+helm install robot-operator robolaunch/robot-operator \
+--create-namespace \
+--namespace robot-system \
+--devel
 ```
 
 To uninstall the chart:
 
 ```
-helm delete robot-operator
+helm delete robot-operator -n robot-system
 ```
 
 ## Contributing
