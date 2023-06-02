@@ -1,0 +1,89 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: {{ include "devspace-operator.fullname" . }}-validating-webhook-configuration
+  annotations:
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "devspace-operator.fullname" . }}-serving-cert
+  labels:
+  {{- include "devspace-operator.labels" . | nindent 4 }}
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: '{{ include "devspace-operator.fullname" . }}-webhook-service'
+      namespace: '{{ .Release.Namespace }}'
+      path: /validate-dev-roboscale-io-v1alpha1-devspace
+  failurePolicy: Fail
+  name: vdevspace.kb.io
+  rules:
+  - apiGroups:
+    - dev.roboscale.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - devspaces
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: '{{ include "devspace-operator.fullname" . }}-webhook-service'
+      namespace: '{{ .Release.Namespace }}'
+      path: /validate-dev-roboscale-io-v1alpha1-workspacemanager
+  failurePolicy: Fail
+  name: vworkspacemanager.kb.io
+  rules:
+  - apiGroups:
+    - dev.roboscale.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - workspacemanagers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: '{{ include "devspace-operator.fullname" . }}-webhook-service'
+      namespace: '{{ .Release.Namespace }}'
+      path: /validate-dev-roboscale-io-v1alpha1-devspaceide
+  failurePolicy: Fail
+  name: vdevspaceide.kb.io
+  rules:
+  - apiGroups:
+    - dev.roboscale.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - devspaceides
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: '{{ include "devspace-operator.fullname" . }}-webhook-service'
+      namespace: '{{ .Release.Namespace }}'
+      path: /validate-dev-roboscale-io-v1alpha1-devspacevdi
+  failurePolicy: Fail
+  name: vdevspacevdi.kb.io
+  rules:
+  - apiGroups:
+    - dev.roboscale.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - devspacevdis
+  sideEffects: None

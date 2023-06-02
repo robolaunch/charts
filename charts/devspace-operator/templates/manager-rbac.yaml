@@ -1,0 +1,227 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "devspace-operator.fullname" . }}-manager-role
+  labels:
+  {{- include "devspace-operator.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - persistentvolumeclaims
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devspaceides
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devspaceides/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devspaceides/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devspaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devspaces/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devspaces/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devspacevdis
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devspacevdis/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devspacevdis/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devsuites
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devsuites/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - devsuites/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - workspacemanagers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - workspacemanagers/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - dev.roboscale.io
+  resources:
+  - workspacemanagers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "devspace-operator.fullname" . }}-manager-rolebinding
+  labels:
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: devspace-operator
+    app.kubernetes.io/part-of: devspace-operator
+  {{- include "devspace-operator.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: '{{ include "devspace-operator.fullname" . }}-manager-role'
+subjects:
+- kind: ServiceAccount
+  name: '{{ include "devspace-operator.fullname" . }}-controller-manager'
+  namespace: '{{ .Release.Namespace }}'
