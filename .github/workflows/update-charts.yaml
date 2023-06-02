@@ -7,6 +7,7 @@ on:
                 description: Choose a chart for update.
                 options: 
                 - robot-operator
+                - devspace-operator
                 - fleet-operator
                 - connection-hub-operator
             version:
