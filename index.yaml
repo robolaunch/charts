@@ -13,6 +13,16 @@ entries:
     version: 0.1.7-alpha.2
   devspace-operator:
   - apiVersion: v2
+    appVersion: v0.1.0-alpha.3
+    created: "2023-06-05T13:00:53.499502906Z"
+    description: A Helm chart for Kubernetes
+    digest: 31cf150804fcd88c599606ff34c4d23b8b1f1c18646501ef6b3629a27a506b4c
+    name: devspace-operator
+    type: application
+    urls:
+    - https://github.com/robolaunch/charts/releases/download/devspace-operator-0.1.0-alpha.3/devspace-operator-0.1.0-alpha.3.tgz
+    version: 0.1.0-alpha.3
+  - apiVersion: v2
     appVersion: v0.1.0-alpha.1
     created: "2023-06-02T09:57:33.628470076Z"
     description: A Helm chart for Kubernetes
@@ -154,4 +164,4 @@ entries:
     urls:
     - https://github.com/robolaunch/charts/releases/download/robot-operator-0.2.5-alpha.6/robot-operator-0.2.5-alpha.6.tgz
     version: 0.2.5-alpha.6
-generated: "2023-06-02T09:57:33.628535276Z"
+generated: "2023-06-05T13:00:53.499674006Z"
