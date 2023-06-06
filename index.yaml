@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   connection-hub-operator:
   - apiVersion: v2
+    appVersion: v0.1.7-alpha.4
+    created: "2023-06-06T11:46:52.237923064Z"
+    description: A Helm chart for Kubernetes
+    digest: 44e2aa0866fe7cbf5f2b23de06d32c90485135de5d6cd4d8bc8ec4ef793d62aa
+    name: connection-hub-operator
+    type: application
+    urls:
+    - https://github.com/robolaunch/charts/releases/download/connection-hub-operator-0.1.7-alpha.4/connection-hub-operator-0.1.7-alpha.4.tgz
+    version: 0.1.7-alpha.4
+  - apiVersion: v2
     appVersion: v0.1.7-alpha.3
     created: "2023-06-06T07:31:05.290898301Z"
     description: A Helm chart for Kubernetes
@@ -174,4 +184,4 @@ entries:
     urls:
     - https://github.com/robolaunch/charts/releases/download/robot-operator-0.2.5-alpha.6/robot-operator-0.2.5-alpha.6.tgz
     version: 0.2.5-alpha.6
-generated: "2023-06-06T07:31:05.290947102Z"
+generated: "2023-06-06T11:46:52.237996068Z"
