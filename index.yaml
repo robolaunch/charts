@@ -215,6 +215,16 @@ entries:
     version: 0.1.6-alpha.5
   robot-operator:
   - apiVersion: v2
+    appVersion: v0.2.5-alpha.33
+    created: "2023-08-09T07:51:19.607033458Z"
+    description: A Helm chart for Kubernetes
+    digest: 21ec2297aafcb209ee14bc9c28341bcd912246c81ebb334f4cb2066317f1d0ba
+    name: robot-operator
+    type: application
+    urls:
+    - https://github.com/robolaunch/charts/releases/download/robot-operator-0.2.5-alpha.33/robot-operator-0.2.5-alpha.33.tgz
+    version: 0.2.5-alpha.33
+  - apiVersion: v2
     appVersion: v0.2.5-alpha.32
     created: "2023-08-07T09:14:42.20324227Z"
     description: A Helm chart for Kubernetes
@@ -464,4 +474,4 @@ entries:
     urls:
     - https://github.com/robolaunch/charts/releases/download/robot-operator-0.2.5-alpha.6/robot-operator-0.2.5-alpha.6.tgz
     version: 0.2.5-alpha.6
-generated: "2023-08-07T09:14:42.204048373Z"
+generated: "2023-08-09T07:51:19.607591463Z"
