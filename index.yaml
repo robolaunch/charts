@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   connection-hub-operator:
   - apiVersion: v2
+    appVersion: v0.1.7-alpha.12-libreswan
+    created: "2024-03-12T06:56:56.671235354Z"
+    description: A Helm chart for Kubernetes
+    digest: 01709f5dd6c0a5844d3c96082ad9e2901112d914f5da1d2984f7d0ecc2db383f
+    name: connection-hub-operator
+    type: application
+    urls:
+    - https://github.com/robolaunch/charts/releases/download/connection-hub-operator-0.1.7-alpha.12-libreswan/connection-hub-operator-0.1.7-alpha.12-libreswan.tgz
+    version: 0.1.7-alpha.12-libreswan
+  - apiVersion: v2
     appVersion: v0.1.7-alpha.12
     created: "2024-02-19T09:39:02.590682511Z"
     description: A Helm chart for Kubernetes
@@ -934,4 +944,4 @@ entries:
     urls:
     - https://github.com/robolaunch/charts/releases/download/robot-operator-0.2.5-alpha.6/robot-operator-0.2.5-alpha.6.tgz
     version: 0.2.5-alpha.6
-generated: "2024-03-07T13:21:42.435091832Z"
+generated: "2024-03-12T06:56:56.671905396Z"
