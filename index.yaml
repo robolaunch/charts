@@ -355,6 +355,16 @@ entries:
     - https://github.com/robolaunch/charts/releases/download/robot-operator-0.2.7-alpha.4-udp-test-2/robot-operator-0.2.7-alpha.4-udp-test-2.tgz
     version: 0.2.7-alpha.4-udp-test-2
   - apiVersion: v2
+    appVersion: v0.2.7-alpha.7.1
+    created: "2024-10-03T16:27:59.004150783Z"
+    description: A Helm chart for Kubernetes
+    digest: bad4a6f40911a90c809deeeaa02ef9d206c0e8a3e0137f88143465dd3881e935
+    name: robot-operator
+    type: application
+    urls:
+    - https://github.com/robolaunch/charts/releases/download/robot-operator-0.2.7-alpha.7.1/robot-operator-0.2.7-alpha.7.1.tgz
+    version: 0.2.7-alpha.7.1
+  - apiVersion: v2
     appVersion: v0.2.7-alpha.7
     created: "2024-09-11T13:06:18.496420418Z"
     description: A Helm chart for Kubernetes
@@ -1044,4 +1054,4 @@ entries:
     urls:
     - https://github.com/robolaunch/charts/releases/download/robot-operator-0.2.5-alpha.6/robot-operator-0.2.5-alpha.6.tgz
     version: 0.2.5-alpha.6
-generated: "2024-09-11T13:06:18.496864679Z"
+generated: "2024-10-03T16:27:59.004579134Z"
